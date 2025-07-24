@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Interactive AI Architect's Handbook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page application with a persistent left-sidebar navigation for the main stages of AI development (Foundation, Customize, Deploy, etc.). The main content area dynamically updates when a navigation item is clicked. This structure transforms the linear report into a non-linear, explorable reference tool, allowing users to jump to specific topics of interest. This prioritizes user-driven exploration over passive reading, making the dense technical information more digestible and accessible. -->
+    <!-- Visualization & Content Choices: The application uses a mix of interactive cards, comparison tables, and dynamic charts to present information. For instance, fine-tuning techniques are compared using a Chart.js bar chart for quantitative analysis (Goal: Compare), while the deployment workflow is visualized as a step-by-step diagram using HTML/CSS (Goal: Organize). Commercial APIs are compared on a radar chart for multi-attribute comparison (Goal: Compare). All choices avoid SVG/Mermaid and focus on interactive, Canvas-based or HTML/CSS-native solutions to enhance user engagement and understanding within the designed dashboard structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-link.active {
+            background-color: #e0f2fe; /* sky-100 */
+            color: #0c4a6e; /* sky-900 */
+            font-weight: 600;
+        }
+        .nav-link:not(.active):hover {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .tab-button.active {
+            border-color: #0ea5e9; /* sky-500 */
+            color: #0ea5e9;
+            background-color: #f0f9ff; /* sky-50 */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-slate-50 border-r border-slate-200 flex-shrink-0">
+            <div class="p-4">
+                <h1 class="text-xl font-bold text-slate-900">AI Architect's Handbook</h1>
+            </div>
+            <nav class="mt-4 px-2">
+                <a href="#introduction" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">👋</span> Introduction
+                </a>
+                <a href="#foundation" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">🏛️</span> Foundation Layer
+                </a>
+                <a href="#customization" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">🎨</span> Customization
+                </a>
+                <a href="#deployment" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">🚀</span> Deployment
+                </a>
+                <a href="#experience" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">💬</span> User Experience
+                </a>
+                <a href="#strategy" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">🌐</span> Hybrid Strategy
+                </a>
+                <a href="#conclusion" class="nav-link flex items-center px-4 py-2.5 text-slate-600 rounded-lg">
+                    <span class="mr-3">📜</span> Architect's Tenets
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-slate-100">
+            <div class="p-4 md:p-8">
+                <!-- Introduction Section -->
+                <section id="introduction" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">The Modular Revolution in AI Development</h2>
+                        <p class="text-slate-600 leading-relaxed mb-6">This application provides an interactive guide to the modern AI architect's handbook. It explores the profound transformation in building conversational AI, moving from monolithic systems to an intelligent assembly of specialized components. The central idea is that today's most effective AI systems are built by strategically combining open-source models, efficient customization techniques, scalable deployment patterns, and the smart use of commercial APIs. This modular approach makes powerful AI accessible to everyone.</p>
+                        <p class="text-slate-600 leading-relaxed">Use the navigation on the left to explore the key stages of an AI project, from selecting a foundational model to leveraging a multi-cloud strategy. Each section breaks down complex topics into digestible formats with interactive visualizations to aid understanding.</p>
+                    </div>
+                </section>
+
+                <!-- Foundation Section -->
+                <section id="foundation" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">The Foundational Layer</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">The journey begins not from scratch, but by leveraging the vast resources of the open-source community. This section covers selecting a pre-trained Large Language Model (LLM) and interacting with it programmatically. The Hugging Face ecosystem is the central hub for this entire process.</p>
+                        
+                        <h3 class="text-2xl font-semibold text-slate-800 mb-4">The Hugging Face Ecosystem Pillars</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-bold text-lg text-slate-900 mb-2">📦 Model Hub</h4>
+                                <p class="text-slate-600 text-sm">A vast, community-driven repository hosting tens of thousands of pre-trained models for NLP, vision, and audio. It's the starting point for finding the right base model for your project.</p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-bold text-lg text-slate-900 mb-2">📚 Datasets Library</h4>
+                                <p class="text-slate-600 text-sm">An extensive collection of datasets essential for training, fine-tuning, and benchmarking models. Provides the raw material needed for AI development in a standardized format.</p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-bold text-lg text-slate-900 mb-2">🚀 Spaces</h4>
+                                <p class="text-slate-600 text-sm">A service for deploying and sharing live machine learning app demos directly on the platform. Crucial for showcasing model capabilities and rapid prototyping without complex infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Customization Section -->
+                <section id="customization" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Customization & Specialization</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">Pre-trained models are generic. To create true value, they must be adapted—or fine-tuned—to a specific domain, task, or conversational style. This section explores modern, efficient fine-tuning techniques that make this process accessible.</p>
+                        
+                        <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Fine-Tuning Technique Comparison</h3>
+                        <p class="text-slate-600 text-center max-w-3xl mx-auto mb-6">Parameter-Efficient Fine-Tuning (PEFT) methods like LoRA and QLoRA offer a revolutionary alternative to full fine-tuning, drastically reducing resource requirements. This chart visualizes the trade-offs. Hover over the bars for details.</p>
+                        <div class="chart-container mb-8">
+                            <canvas id="peftChart"></canvas>
+                        </div>
+
+                        <div class="border-t border-slate-200 pt-8">
+                             <h3 class="text-2xl font-semibold text-slate-800 mb-4">Deep Dive: LoRA and QLoRA</h3>
+                             <div class="mb-4 border-b border-slate-200">
+                                <nav class="flex space-x-4" aria-label="Tabs">
+                                    <button class="tab-button py-2 px-4 font-medium text-sm rounded-t-lg border-b-2 border-transparent text-slate-500 hover:text-slate-700" data-tab="lora">LoRA</button>
+                                    <button class="tab-button py-2 px-4 font-medium text-sm rounded-t-lg border-b-2 border-transparent text-slate-500 hover:text-slate-700" data-tab="qlora">QLoRA</button>
+                                </nav>
+                            </div>
+                            <div>
+                                <div id="lora" class="tab-content">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">LoRA (Low-Rank Adaptation)</h4>
+                                    <p class="text-slate-600 leading-relaxed">LoRA freezes the pre-trained model weights and injects small, trainable "adapter" matrices into the model. It approximates the weight updates with these low-rank matrices, dramatically reducing the number of trainable parameters. A key benefit is that these adapters can be merged back into the base model after training, meaning there is **zero additional latency** during inference.</p>
+                                </div>
+                                <div id="qlora" class="tab-content">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">QLoRA (Quantized LoRA)</h4>
+                                    <p class="text-slate-600 leading-relaxed">QLoRA is a powerful optimization of LoRA. It further reduces memory usage by loading the large base model in a quantized 4-bit precision format. The LoRA fine-tuning is then performed on a small subset of parameters kept in higher precision. This breakthrough allows for fine-tuning massive models (e.g., 70B parameters) on a single consumer-grade GPU.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Deployment Section -->
+                <section id="deployment" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Operationalizing the Model</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">A fine-tuned model is just a file. To be useful, it must be operationalized—wrapped in a web server as an API and packaged into a portable container. This section details the technologies to make your model a live, robust service.</p>
+
+                        <h3 class="text-2xl font-semibold text-slate-800 mb-4">API Backend Frameworks: FastAPI vs. Flask</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-bold text-sky-700 mb-2">🚀 FastAPI</h4>
+                                <ul class="space-y-2 text-slate-600">
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-sky-500">✓</span> <strong>High Performance:</strong> Built on ASGI for native asynchronous support, handling many concurrent users efficiently.</li>
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-sky-500">✓</span> <strong>Auto Data Validation:</strong> Uses Python type hints with Pydantic for robust, automatic request/response validation.</li>
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-sky-500">✓</span> <strong>Auto Docs:</strong> Automatically generates interactive API documentation (Swagger UI), boosting developer productivity.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-600 mb-2">⚙️ Flask</h4>
+                                <ul class="space-y-2 text-slate-600">
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-slate-400">○</span> <strong>Synchronous:</strong> Based on the older WSGI standard, struggles with high concurrency without external libraries.</li>
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-slate-400">○</span> <strong>Manual Validation:</strong> Requires third-party libraries for data validation, adding complexity.</li>
+                                    <li class="flex items-start"><span class="mr-2 mt-1 text-slate-400">○</span> <strong>Manual Docs:</strong> Documentation needs to be written and maintained separately.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mt-6 text-center font-semibold text-slate-700 bg-sky-50 p-3 rounded-lg">For production-grade ML APIs, FastAPI is the architecturally superior choice due to its modern features.</p>
+                        
+                        <div class="border-t border-slate-200 mt-8 pt-8">
+                            <h3 class="text-2xl font-semibold text-slate-800 mb-4">Deployment Workflow with Docker</h3>
+                            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                                <div class="text-center p-4 bg-slate-50 rounded-lg shadow-sm">
+                                    <div class="text-2xl mb-2">📝</div>
+                                    <p class="font-semibold">1. Develop API</p>
+                                    <p class="text-xs text-slate-500">FastAPI script</p>
+                                </div>
+                                <div class="text-slate-300 font-bold text-2xl">→</div>
+                                <div class="text-center p-4 bg-slate-50 rounded-lg shadow-sm">
+                                    <div class="text-2xl mb-2">📦</div>
+                                    <p class="font-semibold">2. Write Dockerfile</p>
+                                    <p class="text-xs text-slate-500">Define environment</p>
+                                </div>
+                                <div class="text-slate-300 font-bold text-2xl">→</div>
+                                <div class="text-center p-4 bg-slate-50 rounded-lg shadow-sm">
+                                    <div class="text-2xl mb-2">🏗️</div>
+                                    <p class="font-semibold">3. Build Image</p>
+                                    <p class="text-xs text-slate-500">`docker build`</p>
+                                </div>
+                                <div class="text-slate-300 font-bold text-2xl">→</div>
+                                <div class="text-center p-4 bg-slate-50 rounded-lg shadow-sm">
+                                    <div class="text-2xl mb-2">▶️</div>
+                                    <p class="font-semibold">4. Run Container</p>
+                                    <p class="text-xs text-slate-500">`docker run`</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Experience Section -->
+                <section id="experience" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Building the Conversational Experience</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">With a live API, the focus shifts to the user. A great conversational AI needs a front-end interface and a form of "memory" to maintain context. This section explores the architectural patterns for these critical layers.</p>
+
+                        <h3 class="text-2xl font-semibold text-slate-800 mb-4">Choosing a Front-End Framework</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="py-3 px-4 bg-slate-100 font-semibold text-sm text-slate-600 border-b border-slate-200">Framework</th>
+                                        <th class="py-3 px-4 bg-slate-100 font-semibold text-sm text-slate-600 border-b border-slate-200">Primary Use Case</th>
+                                        <th class="py-3 px-4 bg-slate-100 font-semibold text-sm text-slate-600 border-b border-slate-200">Customization</th>
+                                        <th class="py-3 px-4 bg-slate-100 font-semibold text-sm text-slate-600 border-b border-slate-200">Language</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td class="py-3 px-4 border-b border-slate-200 font-semibold text-slate-800">Gradio</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Quick ML model demos</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Low</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Python</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-4 border-b border-slate-200 font-semibold text-slate-800">Streamlit</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Internal data dashboards, PoCs</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Medium</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Python</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-4 border-b border-slate-200 font-semibold text-slate-800">Next.js</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">Production-grade web apps</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">High</td>
+                                        <td class="py-3 px-4 border-b border-slate-200 text-slate-600">JavaScript/React</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="border-t border-slate-200 mt-8 pt-8">
+                            <h3 class="text-2xl font-semibold text-slate-800 mb-4">Architecting AI Memory</h3>
+                            <p class="text-slate-600 leading-relaxed mb-6">LLMs are stateless. The "memory" that enables coherent conversation is an engineered illusion. A robust system requires a two-tiered approach: short-term memory for the current dialogue and long-term memory for external knowledge.</p>
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                    <h4 class="font-bold text-lg text-slate-900 mb-2">🧠 Short-Term Memory</h4>
+                                    <p class="text-slate-600 text-sm mb-2">Manages the flow and context of a single conversation. It remembers what was just said.</p>
+                                    <p class="text-sm font-semibold text-sky-800"><strong>Tool:</strong> LangChain</p>
+                                    <p class="text-xs text-slate-500">Uses strategies like buffer windows or summaries to pass recent history back to the LLM.</p>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                    <h4 class="font-bold text-lg text-slate-900 mb-2">📚 Long-Term Knowledge (RAG)</h4>
+                                    <p class="text-slate-600 text-sm mb-2">Grounds the model in external, factual information it wasn't trained on.</p>
+                                    <p class="text-sm font-semibold text-sky-800"><strong>Tools:</strong> ChromaDB + RAG Pattern</p>
+                                    <p class="text-xs text-slate-500">Retrieves relevant documents from a vector database to give the LLM context to answer factual questions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Strategy Section -->
+                <section id="strategy" class="content-section">
+                     <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Leveraging a Hybrid Strategy</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">While custom models offer control, commercial APIs provide access to state-of-the-art capabilities. A sophisticated architecture uses a hybrid "best-of-breed" approach, routing tasks to the optimal model based on the query's needs.</p>
+                        
+                        <h3 class="text-2xl font-semibold text-slate-800 mb-4 text-center">Commercial API Provider Comparison</h3>
+                        <p class="text-slate-600 text-center max-w-3xl mx-auto mb-6">The commercial API market is specializing. Providers differentiate on factors like reasoning power, speed, and real-time knowledge. This chart compares leading providers on their key strengths.</p>
+                        <div class="chart-container mb-8">
+                            <canvas id="apiProviderChart"></canvas>
+                        </div>
+                        
+                        <div class="border-t border-slate-200 pt-8">
+                             <h3 class="text-2xl font-semibold text-slate-800 mb-4">The Hybrid Router Pattern</h3>
+                             <p class="text-slate-600 leading-relaxed mb-6">The most advanced systems use an intelligent router to dynamically dispatch queries. This optimizes for cost, performance, and capability on a query-by-query basis.</p>
+                             <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-center">
+                                        <p class="font-bold">User Query</p>
+                                        <p class="text-2xl mt-2">❓</p>
+                                    </div>
+                                    <div class="text-slate-300 font-bold text-2xl mx-4">→</div>
+                                    <div class="text-center p-4 bg-white rounded-lg shadow-sm border border-sky-300">
+                                        <p class="font-bold text-sky-800">Smart Router</p>
+                                    </div>
+                                    <div class="text-slate-300 font-bold text-2xl mx-4">→</div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="text-center text-sm p-2 bg-green-50 text-green-800 rounded"><strong>Groq:</strong> for Speed</div>
+                                        <div class="text-center text-sm p-2 bg-blue-50 text-blue-800 rounded"><strong>OpenAI:</strong> for Power</div>
+                                        <div class="text-center text-sm p-2 bg-purple-50 text-purple-800 rounded"><strong>Perplexity:</strong> for Facts</div>
+                                        <div class="text-center text-sm p-2 bg-orange-50 text-orange-800 rounded"><strong>Self-Hosted:</strong> for Cost</div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Conclusion Section -->
+                <section id="conclusion" class="content-section">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">The Modern AI Architect's Tenets</h2>
+                        <p class="text-slate-600 leading-relaxed mb-8">The journey through the AI stack reveals a clear set of strategic principles for building modern conversational AI. These tenets provide a high-level framework for making sound architectural decisions.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start p-4 bg-slate-50 rounded-lg">
+                                <span class="text-xl mr-4">1.</span>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800">Start with Open Source</h4>
+                                    <p class="text-slate-600 text-sm">Leverage the Hugging Face ecosystem as the foundational layer for any custom project.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-slate-50 rounded-lg">
+                                <span class="text-xl mr-4">2.</span>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800">Fine-Tune Efficiently</h4>
+                                    <p class="text-slate-600 text-sm">Use PEFT methods like LoRA/QLoRA as the default for model customization to save resources.</p>
+                                </div>
+                            </div>
+                             <div class="flex items-start p-4 bg-slate-50 rounded-lg">
+                                <span class="text-xl mr-4">3.</span>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800">Deploy for Scale</h4>
+                                    <p class="text-slate-600 text-sm">Use modern tools like FastAPI and Docker to build robust, scalable, and portable services.</p>
+                                </div>
+                            </div>
+                             <div class="flex items-start p-4 bg-slate-50 rounded-lg">
+                                <span class="text-xl mr-4">4.</span>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800">Engineer Memory Deliberately</h4>
+                                    <p class="text-slate-600 text-sm">Design a two-tiered memory system (short-term state, long-term knowledge) for coherent and factual conversations.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-4 bg-slate-50 rounded-lg">
+                                <span class="text-xl mr-4">5.</span>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800">Embrace the Multi-Model World</h4>
+                                    <p class="text-slate-600 text-sm">Build hybrid systems with intelligent routing to use the best model (commercial or open-source) for each specific task.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            let peftChartInstance = null;
+            let apiProviderChartInstance = null;
+
+            function navigateTo(hash) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === hash);
+                });
+
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', '#' + section.id === hash);
+                });
+                
+                window.scrollTo(0, 0);
+
+                // Initialize charts only when their section becomes visible
+                if (hash === '#customization' && !peftChartInstance) {
+                    peftChartInstance = createPeftChart();
+                }
+                if (hash === '#strategy' && !apiProviderChartInstance) {
+                    apiProviderChartInstance = createApiProviderChart();
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (window.location.hash !== targetId) {
+                        window.location.hash = targetId;
+                    }
+                });
+            });
+
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash || '#introduction';
+                navigateTo(hash);
+            });
+            
+            function setupTabs(containerSelector) {
+                const container = document.querySelector(containerSelector);
+                if (!container) return;
+                
+                const buttons = container.querySelectorAll('.tab-button');
+                const contents = container.querySelectorAll('.tab-content');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.dataset.tab;
+                        
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        contents.forEach(content => {
+                            content.classList.toggle('active', content.id === tabId);
+                        });
+                    });
+                });
+                 if (buttons.length > 0) {
+                    buttons[0].click();
+                }
+            }
+
+            function createPeftChart() {
+                const ctx = document.getElementById('peftChart')?.getContext('2d');
+                if (!ctx) return null;
+                return new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Full Fine-Tuning', 'LoRA', 'QLoRA'],
+                        datasets: [{
+                            label: 'GPU Memory Usage (Relative)',
+                            data: [100, 20, 10],
+                            backgroundColor: 'rgba(56, 189, 248, 0.6)', // sky-400
+                            borderColor: 'rgba(14, 165, 233, 1)', // sky-500
+                            borderWidth: 1
+                        }, {
+                            label: 'Training Speed (Relative)',
+                            data: [10, 80, 85],
+                            backgroundColor: 'rgba(165, 180, 252, 0.6)', // indigo-300
+                            borderColor: 'rgba(129, 140, 248, 1)', // indigo-400
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Relative Value (Lower is better for Memory, Higher for Speed)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y + '%';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createApiProviderChart() {
+                const ctx = document.getElementById('apiProviderChart')?.getContext('2d');
+                if (!ctx) return null;
+                return new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Reasoning Power', 'Speed (Latency)', 'Factual Accuracy', 'Tooling Maturity', 'Cost-Effectiveness'],
+                        datasets: [{
+                            label: 'OpenAI',
+                            data: [9, 6, 7, 9, 5],
+                            fill: true,
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            pointBackgroundColor: 'rgb(59, 130, 246)',
+                        }, {
+                            label: 'Anthropic (Claude)',
+                            data: [8, 5, 8, 7, 6],
+                            fill: true,
+                            backgroundColor: 'rgba(249, 115, 22, 0.2)',
+                            borderColor: 'rgb(249, 115, 22)',
+                            pointBackgroundColor: 'rgb(249, 115, 22)',
+                        }, {
+                            label: 'Groq',
+                            data: [6, 10, 6, 5, 9],
+                            fill: true,
+                            backgroundColor: 'rgba(22, 163, 74, 0.2)',
+                            borderColor: 'rgb(22, 163, 74)',
+                            pointBackgroundColor: 'rgb(22, 163, 74)',
+                        }, {
+                            label: 'Perplexity',
+                            data: [7, 7, 9, 6, 7],
+                            fill: true,
+                            backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                            borderColor: 'rgb(168, 85, 247)',
+                            pointBackgroundColor: 'rgb(168, 85, 247)',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        elements: {
+                            line: {
+                                borderWidth: 2
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: false
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 10,
+                                pointLabels: {
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initial load
+            const initialHash = window.location.hash || '#introduction';
+            navigateTo(initialHash);
+            setupTabs('#customization');
+
+        });
+    </script>
+</body>
+</html>
